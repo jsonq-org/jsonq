@@ -20,7 +20,7 @@ public final class JSONQ {
 	 * @return a future for sampling results
 	 */
 	public static String exec( JSONObject obj ) {
-		return "Got command "+obj.get(OP);
+		return "Got command "+obj.getString(OP);
 	}
 
 }

@@ -233,29 +233,46 @@ public interface JSONObject {
 
 	/**
 	 * Returns a String for the given key
+	 *
+	 * @param  key  the key to fetch
+	 *
+	 * @throws  IllegalArgumentException if the value at the given key is not a String
 	 */
 	public String getString( String key );
 
 	/**
 	 * Returns an integer for the given key
+	 *
+	 * @param  key  the key to fetch
+	 *
+	 * @throws  IllegalArgumentException if the value at the given key is not an integer
 	 */
 	public int getInt( String key );
 	
 	/**
 	 * Returns a long value for the given key
+	 *
+	 * @param  key  the key to fetch
+	 *
+	 * @throws  IllegalArgumentException if the value at the given key is not a long
 	 */
 	public long getLong( String key );
 	
 	/**
 	 * Returns a double value for the given key
+	 *
+	 * @param  key  the key to fetch
+	 *
+	 * @throws  IllegalArgumentException if the value at the given key is not a double
 	 */
 	public double getDouble( String key );
 
 	/**
-	 * Convenience method to return a boolean for the given key. If nothing exists at the given key,
-	 * returns null
+	 * Returns a boolean value for the given key
 	 *
 	 * @param  key  the key to fetch
+	 *
+	 * @throws  IllegalArgumentException if the value at the given key is not a boolean
 	 */
 	public boolean getBoolean( String key );
 
