@@ -1,9 +1,11 @@
 package org.jsonq;
 
+import static org.jsonq.JSONQConstants.*;
+
 /**
  * Singleton class for JSON/q functionality
  */
-public class JSONQ {
+public final class JSONQ {
 
 	/**
 	 * Constructor 
@@ -17,7 +19,8 @@ public class JSONQ {
 	 *
 	 * @return a future for sampling results
 	 */
-	public static Object exec( JSONObject obj ) {
-		return null;
+	public static String exec( JSONObject obj ) {
+		return "Got command "+obj.get(OP);
 	}
+
 }
