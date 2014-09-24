@@ -6,6 +6,11 @@ package org.jsonq;
 public class JSONQ {
 
 	/**
+	 * Constructor 
+	 */
+	private JSONQ() { }
+
+	/**
 	 * Execute a JSON/q command
 	 *
 	 * @param obj the JSON object representing a JSON/q command
