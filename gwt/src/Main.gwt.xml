@@ -11,8 +11,9 @@
 	<inherits name='org.timepedia.exporter.Exporter'/>
 
 	<set-property name="export" value="yes"/>
-	<set-property name="user.agent" value="safari"/> 
+	<!--<set-property name="user.agent" value="safari"/> -->
 
+	<collapse-all-properties /> 
 	<add-linker name="sso"/>
 
   <entry-point class='org.jsonq.gwt.Main'/>

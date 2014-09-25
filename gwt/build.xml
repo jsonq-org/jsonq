@@ -56,12 +56,12 @@
 
 
       <arg line="-compileReport"/>
-      <arg line="-optimize"/>
-      <arg line="0"/>
+      <!--<arg line="-optimize"/>-->
+      <!--<arg line="0"/>-->
       <!--<arg line="-logLevel"/>-->
       <!--<arg value="DEBUG"/>-->
-      <arg line="-style"/>
-      <arg value="PRETTY"/>
+      <!--<arg line="-style"/>-->
+      <!--<arg value="PRETTY"/>-->
 
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
