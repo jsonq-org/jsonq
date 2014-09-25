@@ -6,7 +6,12 @@ import java.util.*;
 /**
  * Interface for a representation of a JSON object
  */
-public class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject {
+public final class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject {
+
+	/**
+	 * Constructor 
+	 */
+	protected JSONObject() { }
 
 	/**
 	 * Create a new JSONObject
@@ -133,28 +138,6 @@ public class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject
 	}-*/;
 
 	/**
-	 * Adds a long to the given key
-	 *
-	 * @param   key    the key
-	 * @param   value  the value to add to the key
-	 *
-	 * @throws  NullPointerException  if the key is null
-	 */
-	@Override
-	public native void add( String key, long value ) /*-{
-		var current = this[key];
-		if ( typeof current == 'undefined' ) {
-			this[key] = value;
-		} else if ( current instanceof Array ) {
-			current.push(value);
-		} else {
-			var ar = new Array();
-			ar.push(current);
-			ar.push(value);
-		}
-	}-*/;
-
-	/**
 	 * Adds a double to the given key
 	 *
 	 * @param   key    the key
@@ -238,19 +221,6 @@ public class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject
 	 */
 	@Override
 	public native void put( String key, int value ) /*-{
-		this[key] = value;
-	}-*/;
-
-	/**
-	 * Store a long
-	 *
-	 * @param   key    the key
-	 * @param   value  the new value for the key
-	 *
-	 * @throws  NullPointerException  if the key is null
-	 */
-	@Override
-	public native void put( String key, long value ) /*-{
 		this[key] = value;
 	}-*/;
 
@@ -371,7 +341,7 @@ public class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject
 		var t = typeof val;
 		if (t == 'string') {
 			return val;
-		} elseif (t == 'undefined') {
+		} else if (t == 'undefined') {
 			return null;
 		}
 		throw @java.lang.IllegalArgumentException::new(Ljava/lang/String;)(key+" does not contain a string");
@@ -388,29 +358,13 @@ public class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject
 		var t = typeof val;
 		if (t == 'number') {
 			return val;
-		} elseif (t == 'undefined') {
+		} else if (t == 'undefined') {
 			return 0;
 		}
 		throw @java.lang.IllegalArgumentException::new(Ljava/lang/String;)(key+" does not contain an integer");
 	}-*/;
 	
-	/**
-	 * Returns a long value for the given key
-	 *
-	 * @throws  IllegalArgumentException if the value at the given key is not a long
-	 */
-	@Override
-	public native long getLong( String key ) /*-{
-		var val = this[key];
-		var t = typeof val;
-		if (t == 'number') {
-			return val;
-		} elseif (t == 'undefined') {
-			return 0;
-		}
-		throw @java.lang.IllegalArgumentException::new(Ljava/lang/String;)(key+" does not contain a long");
-	}-*/;
-	
+	/*
 	/**
 	 * Returns a double value for the given key
 	 *
@@ -422,7 +376,7 @@ public class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject
 		var t = typeof val;
 		if (t == 'number') {
 			return val;
-		} elseif (t == 'undefined') {
+		} else if (t == 'undefined') {
 			return 0.0;
 		}
 		throw @java.lang.IllegalArgumentException::new(Ljava/lang/String;)(key+" does not contain a double");
@@ -442,7 +396,7 @@ public class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject
 		var t = typeof val;
 		if (t == 'boolean') {
 			return val;
-		} elseif (t == 'undefined') {
+		} else if (t == 'undefined') {
 			return false;
 		}
 		throw @java.lang.IllegalArgumentException::new(Ljava/lang/String;)(key+" does not contain a boolean");

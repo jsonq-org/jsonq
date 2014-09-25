@@ -73,16 +73,6 @@ public interface JSONObject {
 	public void add( String key, int value );
 
 	/**
-	 * Adds a long to the given key
-	 *
-	 * @param   key    the key
-	 * @param   value  the value to add to the key
-	 *
-	 * @throws  NullPointerException  if the key is null
-	 */
-	public void add( String key, long value );
-
-	/**
 	 * Adds a double to the given key
 	 *
 	 * @param   key    the key
@@ -135,16 +125,6 @@ public interface JSONObject {
 	 * @throws  NullPointerException  if the key is null
 	 */
 	public void put( String key, int value );
-
-	/**
-	 * Store a long
-	 *
-	 * @param   key    the key
-	 * @param   value  the new value for the key
-	 *
-	 * @throws  NullPointerException  if the key is null
-	 */
-	public void put( String key, long value );
 
 	/**
 	 * Store a float
@@ -248,15 +228,6 @@ public interface JSONObject {
 	 * @throws  IllegalArgumentException if the value at the given key is not an integer
 	 */
 	public int getInt( String key );
-	
-	/**
-	 * Returns a long value for the given key
-	 *
-	 * @param  key  the key to fetch
-	 *
-	 * @throws  IllegalArgumentException if the value at the given key is not a long
-	 */
-	public long getLong( String key );
 	
 	/**
 	 * Returns a double value for the given key
