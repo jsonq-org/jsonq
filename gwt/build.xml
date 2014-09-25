@@ -9,6 +9,7 @@
   <path id="project.class.path">
     <pathelement location="war/WEB-INF/classes"/>
     <pathelement location="${gwt.sdk}/gwt-user.jar"/>
+		<pathelement location="../lib/gwtexporter-2.5.1.jar"/>
 
     <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
     <!-- Add any additional non-server libs (such as JUnit) -->
@@ -52,9 +53,19 @@
       <jvmarg value="-Xmx256M"/>
       <arg line="-war"/>
       <arg value="war"/>
+
+
+      <arg line="-compileReport"/>
+      <arg line="-optimize"/>
+      <arg line="0"/>
+      <!--<arg line="-logLevel"/>-->
+      <!--<arg value="DEBUG"/>-->
+      <arg line="-style"/>
+      <arg value="PRETTY"/>
+
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="org.jsonq.Main"/>
+      <arg value="Main"/>
     </java>
   </target>
 

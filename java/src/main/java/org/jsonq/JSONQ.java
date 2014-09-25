@@ -10,7 +10,7 @@ public final class JSONQ {
 	/**
 	 * Constructor 
 	 */
-	private JSONQ() { }
+	protected JSONQ() { }
 
 	/**
 	 * Execute a JSON/q command
