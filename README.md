@@ -18,3 +18,8 @@ well as storage driver implementations.
 JSON/q is utilizing the gradle build system. To build, simply run `gradle build` from the project 
 root. The GWT project is utilizing ant underneath gradle, so you can still build these targets using
 ant.
+
+## Examples
+
+Examples of JSON/q messages can be found in the `examples/` directory. These messages are the
+reference for all JSON/q operations.

@@ -1,0 +1,36 @@
+{
+	"id": "a659b427-01d2-48b8-9e18-2afeb62f3fce",
+	"op": "save",
+	"store": "User",
+	"payload": {
+		"username": "thedude",
+		"firstName": "Jeff",
+		"lastName": "Lebowski",
+		"nicknames": ["The Dude", "His Dudeness", "Duder", "El Duderino"],
+		"emailAddresses": [
+		{
+			"type": "home",
+			"value": "the.dude@gmail.com"
+		},
+		{
+			"type": "work",
+			"value": "jeff.lebowski@examplecorp.com"
+		}],
+		"phoneNumbers": [
+		{
+			"type": "mobile",
+			"value": "+1 303 555 5555"
+		},
+		{
+			"type": "work",
+			"value": "+1 619 555 5555"
+		},
+		{
+			"type": "work_fax",
+			"value": "+1 619 555 5556"
+		}],
+		"password": "{SHA256}A7CCB907F7E20BCA162A19957E114A225095DB2C5E5B4372A806E5EE9996E3D2",
+		"securityQuestion": "What is my favorite drink?",
+		"securityAnswer": "Caucasian"
+	}
+}
