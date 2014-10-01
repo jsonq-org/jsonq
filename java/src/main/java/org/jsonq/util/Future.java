@@ -19,9 +19,12 @@ public interface Future<T> {
 	 * @param failureHandler the handler to be fired when the future fails
 	 * @param progressHandler the handler to be fired for updating progress on the operation
 	 *
+	 * @return a Future to allow chaining. The handlers for the returned Future are called after the
+	 * handlers for this Future complete
+	 *
 	 * @throws IllegalStateException if this method has been called before
 	 */
-	public void then(
+	public Future<T> then(
 			Closure<T> successHandler,
 			Closure<Exception> failureHandler,
 			Closure<Double> progressHandler );
