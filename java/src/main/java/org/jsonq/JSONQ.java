@@ -47,11 +47,42 @@ public final class JSONQ {
 	 * @param obj the JSON object representing a JSON/q command
 	 *
 	 * @return a future for sampling results
+	 *
+	 * @throws IllegalArgumentException if the request is not valid
 	 */
 	public static Future<JSONObject> exec( JSONObject obj ) {
 		ensureInitialized();
 
-		return _db.save( null, obj );
+		// validate request
+		String id = obj.getString( ""+Request.ID );
+		if ( null == id ) {
+			throw new IllegalArgumentException( Request.ID+" is required" );
+		}
+
+		String opStr = obj.getString( ""+Request.OP );
+		Op op = null;
+		try {
+			op = ( null == opStr ? null : Op.valueOf( opStr ));
+		} catch ( IllegalArgumentException e ) {
+			throw new IllegalArgumentException( "No JSON/q operation "+opStr );
+		}
+		if ( null == op ) {
+			throw new IllegalArgumentException( Request.OP+" is required" );
+		}
+
+		String store = obj.getString( ""+Request.STORE );
+		if ( null == store ) {
+			throw new IllegalArgumentException( Request.STORE+" is required" );
+		}
+
+		if ( ! obj.containsKey( ""+Request.PAYLOAD ) ) {
+			throw new IllegalArgumentException( Request.PAYLOAD+" is required" );
+		}
+
+		switch ( op ) {
+			case SAVE: return _db.save( obj );
+			default: throw new IllegalStateException( "Unhandled operation: "+op );
+		}
 	}
 
 }
