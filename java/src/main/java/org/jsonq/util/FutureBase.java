@@ -1,9 +1,12 @@
 package org.jsonq.util;
 
 /**
- * Default implementation of a Future
+ * Base implementation of a Future. Subclasses need only implement <code>then()</code> and the
+ * functionality to fire the handlers at the proper time.
+ *
+ * @see org.jsonq.util.Future#then()
  */
-public class DefaultFuture<T> implements Future<T> {
+public abstract class FutureBase<T> implements Future<T> {
 
 	protected final String _id;
 
@@ -14,7 +17,7 @@ public class DefaultFuture<T> implements Future<T> {
 	/**
 	 * Constructor 
 	 */
-	protected DefaultFuture( String id ) {
+	protected FutureBase( String id ) {
 		_id = id;
 	}
 
@@ -23,23 +26,6 @@ public class DefaultFuture<T> implements Future<T> {
 	 */
 	public String getId() {
 		return _id;
-	}
-
-	/**
-	 * Register handlers with this future. Any of them may be null. If the future is already
-	 * complete (success or failure) when this method is called, the appropriate handler will be
-	 * fired immediately.
-	 *
-	 * @param successHandler the handler to be fired when the future completes
-	 * @param failureHandler the handler to be fired when the future fails
-	 * @param progressHandler the handler to be fired for updating progress on the operation
-	 *
-	 * @throws IllegalStateException if this method has been called before
-	 */
-	public void then(
-			Closure<T> successHandler,
-			Closure<Exception> failureHandler,
-			Closure<Double> progressHandler ) {
 	}
 
 	/**
