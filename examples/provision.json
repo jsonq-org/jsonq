@@ -1,0 +1,29 @@
+{
+	"id": "a659b427-01d2-48b8-9e18-2afeb62f3fce",
+	"op": "save",
+	"store": "User",
+	"payload": 
+	{
+		"provider": "mem",
+		"fields": [
+			"username",
+			"firstName",
+			"lastName",
+			{
+				"name": "nicknames",
+				"multi": true
+			},
+			{
+				"name": "emailAddresses",
+				"multi": true
+			},
+			{
+				"name": "phoneNumbers",
+				"multi": true
+			},
+			"password",
+			"securityQuestion",
+			"securityAnswer"
+		]
+	}
+}

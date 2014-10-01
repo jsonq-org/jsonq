@@ -80,6 +80,7 @@ public final class JSONQ {
 		}
 
 		switch ( op ) {
+			case PROVISION: return _db.provision( obj );
 			case SAVE: return _db.save( obj );
 			default: throw new IllegalStateException( "Unhandled operation: "+op );
 		}

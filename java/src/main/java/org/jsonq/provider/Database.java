@@ -10,12 +10,21 @@ import org.jsonq.util.*;
 public interface Database {
 
 	/**
+	 * Provisions a new store on this Database
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the resultant JSON/q response
+	 */
+	public Future<JSONObject> provision( JSONObject request );
+
+	/**
 	 * Saves an item
 	 *
-	 * @param message the valid JSON/q message
+	 * @param request the valid JSON/q request
 	 *
 	 * @return a Future representing the result of the save operation
 	 */
-	public Future<JSONObject> save( JSONObject message );
+	public Future<JSONObject> save( JSONObject request );
 
 }

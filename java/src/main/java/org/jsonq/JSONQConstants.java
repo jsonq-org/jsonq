@@ -48,6 +48,7 @@ public final class JSONQConstants {
 	/** Enumeration of all JSON/q operations */
 	public enum Op {
 
+		PROVISION,
 		SAVE, 
 		FETCH,
 		DELETE,
