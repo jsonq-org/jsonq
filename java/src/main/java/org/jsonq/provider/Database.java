@@ -16,7 +16,7 @@ public interface Database {
 	 *
 	 * @return a Future representing the resultant JSON/q response
 	 */
-	public Future<JSONObject> provision( JSONObject request );
+	public Future<JSONObject,JSONObject> provision( JSONObject request );
 
 	/**
 	 * Saves an item
@@ -25,6 +25,6 @@ public interface Database {
 	 *
 	 * @return a Future representing the result of the save operation
 	 */
-	public Future<JSONObject> save( JSONObject request );
+	public Future<JSONObject,JSONObject> save( JSONObject request );
 
 }

@@ -3,7 +3,7 @@ package org.jsonq.util;
 /**
  * Interface describing a JSON/q future
  */
-public interface Future<T> {
+public interface Future<T,E> {
 
 	/**
 	 * Returns the transaction ID for this future. This method should always return instantly.
@@ -24,9 +24,9 @@ public interface Future<T> {
 	 *
 	 * @throws IllegalStateException if this method has been called before
 	 */
-	public Future<T> then(
+	public Future<T,E> then(
 			Closure<T> successHandler,
-			Closure<Exception> failureHandler,
+			Closure<E> failureHandler,
 			Closure<Double> progressHandler );
 
 	/**
@@ -53,6 +53,6 @@ public interface Future<T> {
 	 *
 	 * @throws IllegalStateException if the Future is not complete
 	 */
-	public Exception getError();
+	public E getError();
 
 }

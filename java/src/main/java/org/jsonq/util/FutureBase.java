@@ -6,13 +6,13 @@ package org.jsonq.util;
  *
  * @see org.jsonq.util.Future#then()
  */
-public abstract class FutureBase<T> implements Future<T> {
+public abstract class FutureBase<T,E> implements Future<T,E> {
 
 	protected final String _id;
 
 	protected boolean _complete = false;
 	protected T _result;
-	protected Exception _error;
+	protected E _error;
 
 	/**
 	 * Constructor 
@@ -55,8 +55,10 @@ public abstract class FutureBase<T> implements Future<T> {
 		if ( null != _error ) {
 			if ( _error instanceof RuntimeException ) {
 				throw (RuntimeException)_error;
+			} else if ( _error instanceof Throwable ) {
+				throw new RuntimeException( (Throwable)_error );
 			} else {
-				throw new RuntimeException( _error );
+				// TODO
 			}
 		}
 		return _result;
@@ -68,7 +70,7 @@ public abstract class FutureBase<T> implements Future<T> {
 	 *
 	 * @throws IllegalStateException if the Future is not complete
 	 */
-	public Exception getError() {
+	public E getError() {
 		if ( ! _complete ) {
 			throw new IllegalStateException( "Future has not completede" );
 		}

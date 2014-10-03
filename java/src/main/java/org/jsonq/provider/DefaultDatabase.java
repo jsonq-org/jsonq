@@ -27,8 +27,8 @@ public class DefaultDatabase implements Database {
 	 *
 	 * @return a Future representing the resultant JSON/q response
 	 */
-	public Future<JSONObject> provision( JSONObject request ) {
-		Future<JSONObject> future = null; // TODO
+	public Future<JSONObject,JSONObject> provision( JSONObject request ) {
+		Future<JSONObject,JSONObject> future = null; // TODO
 		Scheduler.runAsync( new ProvisionCommand( future, request ) );
 		return future;
 	}
@@ -40,23 +40,26 @@ public class DefaultDatabase implements Database {
 	 *
 	 * @return a Future representing the result of the save operation
 	 */
-	public Future<JSONObject> save( JSONObject request ) {
+	public Future<JSONObject,JSONObject> save( JSONObject request ) {
 		return null;
 	}
 
+	//----------------------------------------
+	// Commands
+	//----------------------------------------
 
 	/**
 	 * Base class for DB commands
 	 */
 	public abstract class Command implements Runnable {
 
-		protected final Future<JSONObject> _future;
+		protected final Future<JSONObject,JSONObject> _future;
 		protected final JSONObject _request;
 
 		/**
 		 * Constructor 
 		 */
-		protected Command( Future<JSONObject> future, JSONObject request ) {
+		protected Command( Future<JSONObject,JSONObject> future, JSONObject request ) {
 			_future = future;
 			_request = request;
 		}
@@ -70,7 +73,7 @@ public class DefaultDatabase implements Database {
 		/**
 		 * Constructor 
 		 */
-		protected ProvisionCommand( Future<JSONObject> future, JSONObject request ) {
+		protected ProvisionCommand( Future<JSONObject,JSONObject> future, JSONObject request ) {
 			super( future, request );
 		}
 
@@ -81,7 +84,6 @@ public class DefaultDatabase implements Database {
 			String storeName = _request.getString( ""+Request.STORE );
 			synchronized ( _storeMap ) {
 				if ( _storeMap.containsKey( storeName )) {
-					// XXX error
 				}
 			}
 		}

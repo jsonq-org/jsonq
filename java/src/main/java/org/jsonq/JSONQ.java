@@ -50,7 +50,7 @@ public final class JSONQ {
 	 *
 	 * @throws IllegalArgumentException if the request is not valid
 	 */
-	public static Future<JSONObject> exec( JSONObject obj ) {
+	public static Future<JSONObject,JSONObject> exec( JSONObject obj ) {
 		ensureInitialized();
 
 		// validate request
