@@ -78,35 +78,31 @@ public final class JSONQ {
 		ensureInitialized();
 
 		// validate request
-		String id = obj.getString( ""+Request.ID );
+		String id = obj.getString( Request.ID );
 		if ( null == id ) {
 			throw new IllegalArgumentException( Request.ID+" is required" );
 		}
 
-		String opStr = obj.getString( ""+Request.OP );
-		Op op = null;
-		try {
-			op = ( null == opStr ? null : Op.valueOf( opStr ));
-		} catch ( IllegalArgumentException e ) {
-			throw new IllegalArgumentException( "No JSON/q operation "+opStr );
-		}
+		String op = obj.getString( Request.OP );
 		if ( null == op ) {
 			throw new IllegalArgumentException( Request.OP+" is required" );
 		}
 
-		String store = obj.getString( ""+Request.STORE );
+		String store = obj.getString( Request.STORE );
 		if ( null == store ) {
 			throw new IllegalArgumentException( Request.STORE+" is required" );
 		}
 
-		if ( ! obj.containsKey( ""+Request.PAYLOAD ) ) {
+		if ( ! obj.containsKey( Request.PAYLOAD ) ) {
 			throw new IllegalArgumentException( Request.PAYLOAD+" is required" );
 		}
 
-		switch ( op ) {
-			case PROVISION: return _db.provision( obj );
-			case SAVE: return _db.save( obj );
-			default: throw new IllegalStateException( "Unhandled operation: "+op );
+		if ( Op.PROVISION.equals( op ) ) {
+			return _db.provision( obj );
+		} else if ( Op.SAVE.equals( op ) ) {
+			return _db.save( obj );
+		} else {
+			throw new IllegalStateException( "Unhandled operation: "+op );
 		}
 	}
 }

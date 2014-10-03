@@ -11,56 +11,31 @@ public final class JSONQConstants {
 	private JSONQConstants() { }
 
 	/** Enumeration of all possible keys in a JSON/q request */
-	public enum Request { 
+	public static class Request { 
 
-		ID, 
-		OP, 
-		STORE,
-		PAYLOAD,
-		TXN_ID;
-
-		/**
-		 * Override toString
-		 */
-		@Override
-		public String toString() {
-			return name().toLowerCase();
-		}
-	};
-
-	/** Enumeration of all possible keys in a JSON/q response */
-	public enum Response {
-
-		REQUEST_ID, 
-		SUCCESS,
-		PAYLOAD,
-		TXN_ID;
-
-		/**
-		 * Override toString
-		 */
-		@Override
-		public String toString() {
-			return name().toLowerCase();
-		}
-	};
-
-	/** Enumeration of all JSON/q operations */
-	public enum Op {
-
-		PROVISION,
-		SAVE, 
-		FETCH,
-		DELETE,
-		QUERY;
-
-		/**
-		 * Override toString
-		 */
-		@Override
-		public String toString() {
-			return name().toLowerCase();
-		}
+		public static final String ID = "id";
+		public static final String OP = "op";
+		public static final String STORE = "store";
+		public static final String PAYLOAD = "payload";
+		public static final String TXN_ID = "txn_id";
 	}
 
+	/** Enumeration of all possible keys in a JSON/q response */
+	public static class Response {
+
+		public static final String REQUEST_ID = "request_id";
+		public static final String SUCCESS = "success";
+		public static final String PAYLOAD = "payload";
+		public static final String TXN_ID = "txn_id";
+	}
+
+	/** Enumeration of all JSON/q operations */
+	public static class Op {
+
+		public static final String PROVISION = "provision";
+		public static final String SAVE = "save";
+		public static final String FETCH = "fetch";
+		public static final String DELETE = "delete";
+		public static final String QUERY = "query";
+	}
 }

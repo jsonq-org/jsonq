@@ -81,12 +81,12 @@ public class DefaultDatabase implements Database {
 		 * Called to execute this command
 		 */
 		public void run() {
-			String storeName = _request.getString( ""+Request.STORE );
+			String storeName = _request.getString( Request.STORE );
+
 			synchronized ( _storeMap ) {
 				if ( _storeMap.containsKey( storeName )) {
 				}
 			}
 		}
 	}
-
 }
