@@ -1,0 +1,9 @@
+{
+	"request_id": "a659b427-01d2-48b8-9e18-2afeb62f3fce",
+	"success": false,
+	"payload": {
+		"code": "err.invalid.username",
+		"message": "Username {0} is not valid",
+		"args": ["thedude"]
+	}
+}
