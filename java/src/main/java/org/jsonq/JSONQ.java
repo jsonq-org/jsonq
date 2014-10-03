@@ -10,6 +10,7 @@ import static org.jsonq.JSONQConstants.*;
 public final class JSONQ {
 
 	private static Database _db;
+	private static JSONObjectFactory _joFactory;
 
 	/**
 	 * Constructor 
@@ -33,12 +34,35 @@ public final class JSONQ {
 	}
 
 	/**
+	 * Sets the factory implementation for creating JSONObjects
+	 *
+	 * @throws IllegalStateException if the factory has already been set
+	 */
+	public static synchronized void setJSONObjectFactory( JSONObjectFactory factory ) {
+		if ( null != _joFactory ) {
+			throw new IllegalStateException( "JSONObject factory has already been set" );
+		}
+		if ( null == factory ) {
+			throw new NullPointerException( "factory cannot be null" );
+		}
+		_joFactory = factory;
+	}
+
+	/**
 	 * Throws an Exception if the database has not been set
 	 */
 	private static synchronized void ensureInitialized() {
-		if ( null == _db ) {
+		if ( null == _db || null == _joFactory ) {
 			throw new IllegalStateException( "JSON/q has not been initialized" );
 		}
+	}
+
+	/**
+	 * Creates a JSONObject
+	 */
+	public static JSONObject createObject() {
+		ensureInitialized();
+		return _joFactory.create();
 	}
 
 	/**
@@ -85,5 +109,4 @@ public final class JSONQ {
 			default: throw new IllegalStateException( "Unhandled operation: "+op );
 		}
 	}
-
 }
