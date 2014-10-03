@@ -247,4 +247,13 @@ public interface JSONObject {
 	 */
 	public boolean getBoolean( String key );
 
+	/**
+	 * Returns an object value for the given key
+	 *
+	 * @param  key  the key to fetch
+	 *
+	 * @throws  IllegalArgumentException if the value at the given key is not an object
+	 */
+	public JSONObject getObject( String key );
+
 }
