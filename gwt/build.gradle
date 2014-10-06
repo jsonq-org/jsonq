@@ -1,3 +1,32 @@
-ant.importBuild 'build.xml'
+//apply plugin: 'base'
+//ant.importBuild 'build.xml'
+
+buildscript {
+	repositories {
+		maven {
+			url 'http://dl.bintray.com/steffenschaefer/maven'
+		}
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.5'
+	}
+}
+
+apply plugin: 'war'
+apply plugin: 'gwt'
+
+gwt {
+    gwtVersion='2.6.1'
+    modules 'Main'
+}
+
+repositories {
+	mavenCentral()
+}
+dependencies {
+	compile project(':java')
+	compile files('../lib/gwtexporter-2.5.1.jar')
+}
 
 // vim: set ft=groovy:
