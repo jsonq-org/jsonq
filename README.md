@@ -19,6 +19,16 @@ JSON/q is utilizing the gradle build system. To build, simply run `gradle build`
 root. The GWT project is utilizing ant underneath gradle, so you can still build these targets using
 ant.
 
+### Prerequisites
+
+ - Oracle Java JDK 1.7
+ - GWT
+ - Gradle
+ - Apache Ant
+
+Extract the GWT SDK and set an environment variable called `GWT_HOME`, pointing to the location of
+the GWT SDK.
+
 ## Examples
 
 Examples of JSON/q messages can be found in the `examples/` directory. These messages are the
