@@ -331,6 +331,23 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	// ----------------------------------------
 
 	/**
+	 * Returns an Object for the given key
+	 *
+	 * @throws  IllegalArgumentException if the value at the given key is not a String
+	 */
+	@Override
+	public native JSONObject getObject( String key ) /*-{
+		var val = this[key];
+		var t = typeof val;
+		if (t == 'object') {
+			return val;
+		} else if (t == 'undefined') {
+			return null;
+		}
+		throw @java.lang.IllegalArgumentException::new(Ljava/lang/String;)(key+" does not contain an object");
+	}-*/;
+
+	/**
 	 * Returns a String for the given key
 	 *
 	 * @throws  IllegalArgumentException if the value at the given key is not a String
