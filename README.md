@@ -22,12 +22,7 @@ ant.
 ### Prerequisites
 
  - Oracle Java JDK 1.7
- - GWT
  - Gradle
- - Apache Ant
-
-Extract the GWT SDK and set an environment variable called `GWT_HOME`, pointing to the location of
-the GWT SDK.
 
 ## Examples
 
