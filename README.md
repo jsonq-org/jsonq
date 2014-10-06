@@ -1,6 +1,6 @@
 # Overview
 
-JSON/q codebase
+JSON/q codebase and examples
 
 ## Project Structure
 
