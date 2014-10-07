@@ -43,7 +43,7 @@ public class DefaultDatabase implements Database {
 	 * @return a Future representing the resultant JSON/q response
 	 */
 	public Future<JSONObject,JSONObject> provision( JSONObject request ) {
-		Future<JSONObject,JSONObject> future = null; // TODO
+		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<JSONObject,JSONObject>();
 		Scheduler.runAsync( new ProvisionCommand( future, request ) );
 		return future;
 	}
@@ -68,16 +68,15 @@ public class DefaultDatabase implements Database {
 	 */
 	public abstract class Command implements Runnable {
 
-		protected final Future<JSONObject,JSONObject> _future;
+		protected final FutureImpl<JSONObject,JSONObject> _future;
 		protected final JSONObject _request;
 
 		/**
 		 * Constructor 
 		 */
-		protected Command( Future<JSONObject,JSONObject> future, JSONObject request ) {
+		protected Command( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
 			_future = future;
 			_request = request;
-
 		}
 
 		/**
@@ -127,7 +126,11 @@ public class DefaultDatabase implements Database {
 			response.put( Response.SUCCESS, success );
 			response.put( Response.PAYLOAD, payload );
 
-			// TODO: set result on Future
+			if ( success ) {
+				_future.complete( response );
+			} else {
+				_future.fail( response );
+			}
 		}
 	}
 
@@ -139,7 +142,7 @@ public class DefaultDatabase implements Database {
 		/**
 		 * Constructor 
 		 */
-		protected ProvisionCommand( Future<JSONObject,JSONObject> future, JSONObject request ) {
+		protected ProvisionCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
 			super( future, request );
 		}
 
