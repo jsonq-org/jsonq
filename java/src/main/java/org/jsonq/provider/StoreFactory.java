@@ -6,7 +6,7 @@ import org.jsonq.util.*;
 /**
  * API for creating stores
  */
-public interface StoreFactory {
+public interface StoreFactory<T extends Store> {
 
 	/**
 	 * Creates a new store
@@ -15,6 +15,6 @@ public interface StoreFactory {
 	 *
 	 * @return a Future which will be fired when the store is created
 	 */
-	public Future<Store,JSONObject> create( JSONObject schema );
+	public Future<T,JSONObject> create( JSONObject schema );
 
 }

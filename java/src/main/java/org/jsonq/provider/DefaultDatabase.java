@@ -149,6 +149,7 @@ public class DefaultDatabase implements Database {
 		/**
 		 * Called to execute this command
 		 */
+		@SuppressWarnings("unchecked")
 		public void run() {
 			final String storeName = _request.getString( Request.STORE );
 
