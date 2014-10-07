@@ -2,4 +2,4 @@
 build/
 gwt-unitCache/
 gwt/extras
-gwt/war
+gwt/war/WEB-INF
