@@ -13,6 +13,7 @@ public abstract class FutureBase<T,E> implements Future<T,E> {
 	protected boolean _complete = false;
 	protected T _result;
 	protected E _error;
+	protected double _progress;
 
 	/**
 	 * Constructor 
@@ -75,6 +76,22 @@ public abstract class FutureBase<T,E> implements Future<T,E> {
 			throw new IllegalStateException( "Future has not completede" );
 		}
 		return _error;
+	}
+
+	/**
+	 * Sets the progress of this future
+	 */
+	protected synchronized void setProgress( double progress ) {
+		_progress = progress;
+	}
+
+	/**
+	 * Sets the results of this future
+	 */
+	protected synchronized void setResults( T result, E error ) {
+		_result = result;
+		_error = error;
+		_complete = true;
 	}
 
 }
