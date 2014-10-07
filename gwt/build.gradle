@@ -1,6 +1,3 @@
-//apply plugin: 'base'
-//ant.importBuild 'build.xml'
-
 buildscript {
 	repositories {
 		maven {
@@ -25,8 +22,9 @@ repositories {
 	mavenCentral()
 }
 dependencies {
-	compile project(':java')
-	compile files('../lib/gwtexporter-2.5.1.jar')
+	gwt project(':java')
+	gwt files('../java/src/main/java')
+	gwt files('../lib/gwtexporter-2.5.1.jar')
 }
 
 // vim: set ft=groovy:
