@@ -1,4 +1,4 @@
-package org.jsonq.gwt;
+package org.jsonq;
 
 import com.google.gwt.core.client.*;
 import java.util.*;
@@ -6,22 +6,7 @@ import java.util.*;
 /**
  * Interface for a representation of a JSON object
  */
-public final class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject {
-
-	public static final org.jsonq.JSONObjectFactory FACTORY = new Factory();
-
-	/**
-	 * Factory for creating JSONObjects
-	 */
-	private static class Factory implements org.jsonq.JSONObjectFactory {
-
-		/**
-		 * Create a new, empty JSONObject
-		 */
-		public org.jsonq.JSONObject create() {
-			return JSONObject.create();
-		}
-	}
+public final class JSONObject extends JavaScriptObject {
 
 	/**
 	 * Constructor 
@@ -40,7 +25,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @return  an (unmodifiable) set of all the keys in the map
 	 */
-	@Override
 	public Set<String> getKeys() {
 		// TODO: implement
 		return Collections.emptySet();
@@ -51,7 +35,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @return  a count of the number of keys in this map
 	 */
-	@Override
 	public native int size() /*-{
 		return Object.keys(this).length;
 	}-*/;
@@ -59,7 +42,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	/**
 	 * Clears all values from this map
 	 */
-	@Override
 	public void clear() {
 		throw new IllegalStateException();
 	}
@@ -71,7 +53,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @return  true if the key is contained in this object
 	 */
-	@Override
 	public native boolean containsKey( String key ) /*-{
 		return this.hasOwnProperty(key);
 	}-*/;
@@ -81,7 +62,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @param  key  the key which should be removed
 	 */
-	@Override
 	public native void remove( String key ) /*-{
 		delete this[key];
 	}-*/;
@@ -94,7 +74,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void add( String key, org.jsonq.JSONObject value ) /*-{
 		var current = this[key];
 		if ( typeof current == 'undefined' ) {
@@ -116,7 +95,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void add( String key, boolean value ) /*-{
 		var current = this[key];
 		if ( typeof current == 'undefined' ) {
@@ -138,7 +116,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void add( String key, int value ) /*-{
 		var current = this[key];
 		if ( typeof current == 'undefined' ) {
@@ -160,7 +137,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void add( String key, double value ) /*-{
 		var current = this[key];
 		if ( typeof current == 'undefined' ) {
@@ -182,7 +158,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void add( String key, String value ) /*-{
 		var current = this[key];
 		if ( typeof current == 'undefined' ) {
@@ -208,7 +183,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void put( String key, org.jsonq.JSONObject value ) /*-{
 		this[key] = value;
 	}-*/;
@@ -221,7 +195,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void put( String key, boolean value ) /*-{
 		this[key] = value;
 	}-*/;
@@ -234,7 +207,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void put( String key, int value ) /*-{
 		this[key] = value;
 	}-*/;
@@ -247,7 +219,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void put( String key, float value ) /*-{
 		this[key] = value;
 	}-*/;
@@ -260,7 +231,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void put( String key, double value ) /*-{
 		this[key] = value;
 	}-*/;
@@ -273,7 +243,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  NullPointerException  if the key is null
 	 */
-	@Override
 	public native void put( String key, String value ) /*-{
 		this[key] = value;
 	}-*/;
@@ -295,8 +264,7 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 * @see     nuvos.core.json.JsonValue. <b>JsonObjects contained in the list
 	 *          will not be cloned by this implementation.</b>
 	 */
-	@Override
-	public native void put( String key, List<?> values ) /*-{
+	public native void put( String key, List values ) /*-{
 		var ar = new Array();
 		var len = values.@java.util.List::size()();
 		for (var i=0; i<len; i++) {
@@ -350,7 +318,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  IllegalArgumentException if the value at the given key is not a String
 	 */
-	@Override
 	public native JSONObject getObject( String key ) /*-{
 		var val = this[key];
 		var t = typeof val;
@@ -367,7 +334,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  IllegalArgumentException if the value at the given key is not a String
 	 */
-	@Override
 	public native String getString( String key ) /*-{
 		var val = this[key];
 		var t = typeof val;
@@ -384,7 +350,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  IllegalArgumentException if the value at the given key is not an integer
 	 */
-	@Override
 	public native int getInt( String key ) /*-{
 		var val = this[key];
 		var t = typeof val;
@@ -402,7 +367,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  IllegalArgumentException if the value at the given key is not a double
 	 */
-	@Override
 	public native double getDouble( String key ) /*-{
 		var val = this[key];
 		var t = typeof val;
@@ -422,7 +386,6 @@ public final class JSONObject extends JavaScriptObject implements org.jsonq.JSON
 	 *
 	 * @throws  IllegalArgumentException if the value at the given key is not a boolean
 	 */
-	@Override
 	public native boolean getBoolean( String key ) /*-{
 		var val = this[key];
 		var t = typeof val;

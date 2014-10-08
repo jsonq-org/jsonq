@@ -105,7 +105,7 @@ public class DefaultDatabase implements Database {
 		 * @param args any arguments which need to be added
 		 */
 		protected void fail( String code, String message, String... args ) {
-			JSONObject error = JSONQ.createObject();
+			JSONObject error = JSONObject.create();
 			error.put( "code", code );
 			error.put( "message", message );
 			if ( null != args && args.length > 0 ) {
@@ -121,7 +121,7 @@ public class DefaultDatabase implements Database {
 		 * @param success true if the command completed successfully
 		 */
 		private void complete( JSONObject payload, boolean success ) {
-			JSONObject response = JSONQ.createObject();
+			JSONObject response = JSONObject.create();
 			response.put( Response.REQUEST_ID, _request.getString( Request.ID ) );
 			response.put( Response.SUCCESS, success );
 			response.put( Response.PAYLOAD, payload );

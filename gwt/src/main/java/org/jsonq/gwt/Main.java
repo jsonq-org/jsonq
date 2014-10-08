@@ -19,7 +19,6 @@ public class Main implements EntryPoint {
 		DefaultDatabase db = new DefaultDatabase();
 		db.registerProvider( "mem", SimpleStore.FACTORY );
 		org.jsonq.JSONQ.setDatabase( db );
-		org.jsonq.JSONQ.setJSONObjectFactory( JSONObject.FACTORY );
 		ExporterUtil.exportAll();
 	}
 }
