@@ -19,7 +19,8 @@ public class FutureImpl<T,E> extends FutureBase<T,E> {
 	 * Constructor 
 	 */
 	public FutureImpl() {
-		super( ""+UUID.randomUUID() );
+		super( ""+System.currentTimeMillis());
+		//UUID.randomUUID() );
 	}
 
 	/**

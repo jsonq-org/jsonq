@@ -18,5 +18,6 @@
   <entry-point class='org.jsonq.gwt.Main'/>
 
   <source path='org'/>
+  <super-source path='super'/>
 
 </module>

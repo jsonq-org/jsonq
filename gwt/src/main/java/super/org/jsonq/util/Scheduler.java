@@ -8,9 +8,6 @@ import java.util.*;
  */
 public final class Scheduler {
 
-	// member variables
-	private static final Executor _executor = Executors.newSingleThreadExecutor();
-
 	/**
 	 * Private Constructor - singleton 
 	 */
@@ -21,7 +18,10 @@ public final class Scheduler {
 	 *
 	 * @param runnable the Runnable to execute
 	 */
-	public static void runAsync( Runnable runnable ) {
-		_executor.execute( runnable );
+	public static void runAsync( final Runnable runnable ) {
+		com.google.gwt.core.client.Scheduler.get().scheduleDeferred(
+				new com.google.gwt.core.client.Scheduler.ScheduledCommand() {
+					public void execute() { runnable.run(); }
+				} );
 	}
 }

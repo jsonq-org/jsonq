@@ -8,6 +8,21 @@ import java.util.*;
  */
 public final class JSONObject extends JavaScriptObject implements org.jsonq.JSONObject {
 
+	public static final org.jsonq.JSONObjectFactory FACTORY = new Factory();
+
+	/**
+	 * Factory for creating JSONObjects
+	 */
+	private static class Factory implements org.jsonq.JSONObjectFactory {
+
+		/**
+		 * Create a new, empty JSONObject
+		 */
+		public org.jsonq.JSONObject create() {
+			return JSONObject.create();
+		}
+	}
+
 	/**
 	 * Constructor 
 	 */
