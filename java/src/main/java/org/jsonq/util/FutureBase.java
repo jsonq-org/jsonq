@@ -51,7 +51,7 @@ public abstract class FutureBase<T,E> implements Future<T,E> {
 	 */
 	public T get() {
 		if ( ! _complete ) {
-			throw new IllegalStateException( "Future has not completede" );
+			throw new IllegalStateException( "Future has not completed" );
 		}
 		if ( null != _error ) {
 			if ( _error instanceof RuntimeException ) {
