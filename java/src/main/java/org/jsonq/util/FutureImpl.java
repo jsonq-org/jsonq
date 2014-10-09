@@ -1,7 +1,5 @@
 package org.jsonq.util;
 
-import java.util.*;
-
 /**
  * Basic, thread-safe implementation of Future
  */
@@ -19,8 +17,7 @@ public class FutureImpl<T,E> extends FutureBase<T,E> {
 	 * Constructor 
 	 */
 	public FutureImpl() {
-		super( ""+System.currentTimeMillis());
-		//UUID.randomUUID() );
+		super( ""+UUID.uuid() );
 	}
 
 	/**
