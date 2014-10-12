@@ -124,7 +124,7 @@ public class DefaultDatabase implements Database {
 					},
 					new Closure<JSONObject>() {
 						public void apply( JSONObject error ) {
-							fail( error );
+							fail( error.getObject( Response.PAYLOAD ) );
 						}
 					},
 					null );
@@ -159,10 +159,14 @@ public class DefaultDatabase implements Database {
 			Future<JSONObject,JSONObject> future = store.save( _request );
 			future.then(
 					new Closure<JSONObject>() {
-						public void apply( JSONObject response ) { complete( response ); }
+						public void apply( JSONObject response ) {
+							complete( response.getObject( Response.PAYLOAD ) );
+						}
 					},
 					new Closure<JSONObject>() {
-						public void apply( JSONObject error ) { fail( error ); }
+						public void apply( JSONObject error ) {
+							fail( error.getObject( Response.PAYLOAD ) );
+						}
 					},
 					null );
 		}
