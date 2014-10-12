@@ -189,9 +189,7 @@ public class DefaultDatabase implements Database {
 						}
 					},
 					new Closure<JSONObject>() {
-						public void apply( JSONObject error ) {
-							fail( error.getObject( Response.PAYLOAD ) );
-						}
+						public void apply( JSONObject error ) { fail( error ); }
 					},
 					null );
 		}
