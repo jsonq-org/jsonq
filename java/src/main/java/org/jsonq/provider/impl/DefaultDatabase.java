@@ -57,83 +57,14 @@ public class DefaultDatabase implements Database {
 	 * @return a Future representing the result of the save operation
 	 */
 	public Future<JSONObject,JSONObject> save( JSONObject request ) {
-		return null;
+		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<JSONObject,JSONObject>();
+		Scheduler.runAsync( new SaveCommand( future, request ) );
+		return future;
 	}
 
 	//----------------------------------------
 	// Commands
 	//----------------------------------------
-
-	/**
-	 * Base class for DB commands
-	 */
-	public abstract class Command implements Runnable {
-
-		protected final FutureImpl<JSONObject,JSONObject> _future;
-		protected final JSONObject _request;
-
-		/**
-		 * Constructor 
-		 */
-		protected Command( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
-			_future = future;
-			_request = request;
-		}
-
-		/**
-		 * Signals that this command succeeded. Creates and sends the response
-		 *
-		 * @param payload the result payload to send
-		 */
-		protected void complete( JSONObject payload ) {
-			complete( payload, true );
-		}
-
-		/**
-		 * Signals that this command failed. Creates and sends the response
-		 *
-		 * @param error the error payload
-		 */
-		protected void fail( JSONObject error ) {
-			complete( error, false );
-		}
-
-		/**
-		 * Signals that this command failed. Creates and sends the response
-		 *
-		 * @param code the error code
-		 * @param message the error message
-		 * @param args any arguments which need to be added
-		 */
-		protected void fail( String code, String message, String... args ) {
-			JSONObject error = JSONObject.create();
-			error.put( "code", code );
-			error.put( "message", message );
-			if ( null != args && args.length > 0 ) {
-				error.put( "args", Arrays.asList( args ));
-			}
-			complete( error, false );
-		}
-
-		/**
-		 * Signals that this command completed
-		 *
-		 * @param payload the result payload to send
-		 * @param success true if the command completed successfully
-		 */
-		private void complete( JSONObject payload, boolean success ) {
-			JSONObject response = JSONObject.create();
-			response.put( Response.REQUEST_ID, _request.getString( Request.ID ) );
-			response.put( Response.SUCCESS, success );
-			response.put( Response.PAYLOAD, payload );
-
-			if ( success ) {
-				_future.complete( response );
-			} else {
-				_future.fail( response );
-			}
-		}
-	}
 
 	/**
 	 * Runnable for provisioning a new store
@@ -156,10 +87,7 @@ public class DefaultDatabase implements Database {
 
 			synchronized ( _storeMap ) {
 				if ( _storeMap.containsKey( storeName )) {
-					fail( 
-							"err.store.exists",
-							"Store {0} exists",
-							_request.getString( Request.STORE ) );
+					fail( "err.store.exists", "Store {0} exists", storeName );
 					return;
 				}
 			}
@@ -198,6 +126,43 @@ public class DefaultDatabase implements Database {
 						public void apply( JSONObject error ) {
 							fail( error );
 						}
+					},
+					null );
+		}
+	}
+
+	/**
+	 * Runnable for saving an object
+	 */
+	public class SaveCommand extends Command {
+
+		/**
+		 * Constructor 
+		 */
+		protected SaveCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Called to execute this command
+		 */
+		public void run() {
+			final String storeName = _request.getString( Request.STORE );
+			synchronized ( _storeMap ) {
+				if ( ! _storeMap.containsKey( storeName )) {
+					fail( "err.invalid.store", "Cannot find store {0}", storeName );
+					return;
+				}
+			}
+
+			Store store = _storeMap.get( storeName );
+			Future<JSONObject,JSONObject> future = store.save( _request );
+			future.then(
+					new Closure<JSONObject>() {
+						public void apply( JSONObject response ) { complete( response ); }
+					},
+					new Closure<JSONObject>() {
+						public void apply( JSONObject error ) { fail( error ); }
 					},
 					null );
 		}
