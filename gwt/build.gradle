@@ -14,7 +14,7 @@ apply plugin: 'war'
 apply plugin: 'gwt'
 
 gwt {
-    gwtVersion='2.6.1'
+    gwtVersion = '2.6.1'
     modules 'Main'
 }
 
