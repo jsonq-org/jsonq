@@ -1,6 +1,6 @@
 package org.jsonq.gwt;
 
-import org.jsonq.provider.*;
+import org.jsonq.provider.impl.*;
 
 import com.google.gwt.core.client.*;
 import com.google.gwt.user.client.*;
