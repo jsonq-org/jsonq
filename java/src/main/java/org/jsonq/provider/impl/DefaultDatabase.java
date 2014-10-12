@@ -73,7 +73,9 @@ public class DefaultDatabase implements Database {
 	 */
 	@Override
 	public Future<JSONObject,JSONObject> fetch( JSONObject request ) {
-		return null;
+		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<JSONObject,JSONObject>();
+		Scheduler.runAsync( new FetchCommand( future, request ) );
+		return future;
 	}
 
 	//----------------------------------------
@@ -196,9 +198,43 @@ public class DefaultDatabase implements Database {
 	}
 
 	/**
+	 * Base class to pull out the store
+	 */
+	public abstract class StoreCommand extends DbCommand {
+
+		/**
+		 * Constructor 
+		 */
+		protected StoreCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Method Description
+		 */
+		@Override
+		public final void run() {
+			final String storeName = _request.getString( Request.STORE );
+			synchronized ( _storeMap ) {
+				if ( ! _storeMap.containsKey( storeName )) {
+					fail( "err.invalid.store", "Cannot find store {0}", storeName );
+					return;
+				}
+			}
+			run( _storeMap.get( storeName ));
+		}
+
+		/**
+		 * Finish running the command
+		 */
+		protected abstract void run( Store store );
+
+	}
+
+	/**
 	 * Runnable for saving an object
 	 */
-	public class SaveCommand extends DbCommand {
+	public class SaveCommand extends StoreCommand {
 
 		/**
 		 * Constructor 
@@ -210,16 +246,7 @@ public class DefaultDatabase implements Database {
 		/**
 		 * Called to execute this command
 		 */
-		public void run() {
-			final String storeName = _request.getString( Request.STORE );
-			synchronized ( _storeMap ) {
-				if ( ! _storeMap.containsKey( storeName )) {
-					fail( "err.invalid.store", "Cannot find store {0}", storeName );
-					return;
-				}
-			}
-
-			final Store store = _storeMap.get( storeName );
+		protected void run( final Store store ) {
 			Future<String,JSONObject> future = store.save( _request );
 			future.then(
 					new Closure<String>() {
@@ -228,9 +255,35 @@ public class DefaultDatabase implements Database {
 						}
 					},
 					new Closure<JSONObject>() {
-						public void apply( JSONObject error ) {
-							fail( error.getObject( Response.PAYLOAD ) );
-						}
+						public void apply( JSONObject error ) { fail( error ); }
+					},
+					null );
+		}
+	}
+
+	/**
+	 * Runnable for fetching an object
+	 */
+	public class FetchCommand extends StoreCommand {
+
+		/**
+		 * Constructor 
+		 */
+		protected FetchCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Called to execute this command
+		 */
+		protected void run( final Store store ) {
+			Future<JSONObject,JSONObject> future = store.fetch( _request );
+			future.then(
+					new Closure<JSONObject>() {
+						public void apply( JSONObject object ) { complete( object ); }
+					},
+					new Closure<JSONObject>() {
+						public void apply( JSONObject error ) { fail( error ); }
 					},
 					null );
 		}

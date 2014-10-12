@@ -77,6 +77,8 @@ public final class JSONQ {
 			return _db.provision( obj );
 		} else if ( Op.SAVE.equals( op ) ) {
 			return _db.save( obj );
+		} else if ( Op.FETCH.equals( op ) ) {
+			return _db.fetch( obj );
 		} else {
 			throw new IllegalStateException( "Unhandled operation: "+op );
 		}

@@ -75,7 +75,9 @@ public class SimpleStore implements Store {
 	 */
 	@Override
 	public Future<JSONObject,JSONObject> fetch( JSONObject request ) {
-		return null;
+		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<>();
+		Scheduler.runAsync( new FetchCommand( future, request ) );
+		return future;
 	}
 
 	/**
@@ -105,6 +107,27 @@ public class SimpleStore implements Store {
 			// TODO: validate against schema
 			_map.put( id, payload );
 			complete( id );
+		}
+	}
+
+	/**
+	 * Runnable for fetching an object
+	 */
+	public class FetchCommand extends Command<JSONObject> {
+
+		/**
+		 * Constructor 
+		 */
+		protected FetchCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Called to execute this command
+		 */
+		public void run() {
+			String id = _request.getString( Request.PAYLOAD );
+			complete( _map.getObject( id ));
 		}
 	}
 
