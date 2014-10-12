@@ -57,10 +57,23 @@ public class DefaultDatabase implements Database {
 	 *
 	 * @return a Future representing the result of the save operation
 	 */
+	@Override
 	public Future<JSONObject,JSONObject> save( JSONObject request ) {
 		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<JSONObject,JSONObject>();
 		Scheduler.runAsync( new SaveCommand( future, request ) );
 		return future;
+	}
+
+	/**
+	 * Retrieves an item by its ID
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the fetch operation
+	 */
+	@Override
+	public Future<JSONObject,JSONObject> fetch( JSONObject request ) {
+		return null;
 	}
 
 	//----------------------------------------

@@ -22,4 +22,13 @@ public interface Store {
 	 */
 	public Future<String,JSONObject> save( JSONObject obj );
 
+	/**
+	 * Retrieves an item by its ID
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the fetch operation
+	 */
+	public Future<JSONObject,JSONObject> fetch( JSONObject request );
+
 }

@@ -67,6 +67,18 @@ public class SimpleStore implements Store {
 	}
 
 	/**
+	 * Retrieves an item by its ID
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the fetch operation
+	 */
+	@Override
+	public Future<JSONObject,JSONObject> fetch( JSONObject request ) {
+		return null;
+	}
+
+	/**
 	 * Runnable for saving an object
 	 */
 	public class SaveCommand extends Command<String> {

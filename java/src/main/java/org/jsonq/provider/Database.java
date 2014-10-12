@@ -27,4 +27,13 @@ public interface Database {
 	 */
 	public Future<JSONObject,JSONObject> save( JSONObject request );
 
+	/**
+	 * Retrieves an item by its ID
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the fetch operation
+	 */
+	public Future<JSONObject,JSONObject> fetch( JSONObject request );
+
 }
