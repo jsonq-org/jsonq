@@ -1,6 +1,7 @@
-package org.jsonq.provider;
+package org.jsonq.provider.impl;
 
 import org.jsonq.*;
+import org.jsonq.provider.*;
 import org.jsonq.util.*;
 import java.util.*;
 
@@ -165,7 +166,7 @@ public class DefaultDatabase implements Database {
 
 			// clear to create the store now
 			JSONObject schema = _request.getObject( Request.PAYLOAD );
-			String providerName = schema.getString( "provider" );
+			String providerName = schema.getString( Schema.PROVIDER );
 			if ( null == providerName ) {
 				fail( "err.invalid_input", "No provider specified" );
 				return;
