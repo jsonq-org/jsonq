@@ -28,7 +28,7 @@ public class SimpleStore implements Store {
 	}
 
 	protected final JSONObject _map;
-	protected final String _key;
+	protected final String _idField;
 	protected final JSONObject _schema;
 
 	/**
@@ -37,11 +37,19 @@ public class SimpleStore implements Store {
 	protected SimpleStore( JSONObject schema ) {
 		_map = JSONObject.create();
 		_schema = schema;
-		String key = _schema.getString( Schema.KEY );
-		if ( null == key ) {
-			key = Schema.DEFAULT_KEY;
+		String idField = _schema.getString( Schema.ID_FIELD );
+		if ( null == idField ) {
+			idField = Schema.DEFAULT_ID_FIELD;
 		}
-		_key = key;
+		_idField = idField;
+	}
+
+	/**
+	 * Returns the ID field for this store
+	 */
+	@Override
+	public String getIdField() {
+		return _idField;
 	}
 
 	/**

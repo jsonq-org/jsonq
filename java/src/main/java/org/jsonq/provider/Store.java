@@ -9,6 +9,11 @@ import org.jsonq.util.*;
 public interface Store {
 
 	/**
+	 * Synchronous method to return the schema-specified ID field for this store
+	 */
+	public String getIdField();
+
+	/**
 	 * Save the given object
 	 *
 	 * @param obj the object to save

@@ -43,8 +43,8 @@ public final class JSONQConstants {
 	public static class Schema {
 
 		public static final String PROVIDER = "provider";
-		public static final String KEY = "key";
-		public static final String DEFAULT_KEY = "id";
+		public static final String ID_FIELD = "id_field";
+		public static final String DEFAULT_ID_FIELD = "id";
 		public static final String FIELDS = "fields";
 		public static final String MULTI = "multi";
 
