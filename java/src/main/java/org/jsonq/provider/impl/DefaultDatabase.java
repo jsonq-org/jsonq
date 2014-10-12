@@ -43,6 +43,7 @@ public class DefaultDatabase implements Database {
 	 *
 	 * @return a Future representing the resultant JSON/q response
 	 */
+	@Override
 	public Future<JSONObject,JSONObject> provision( JSONObject request ) {
 		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<JSONObject,JSONObject>();
 		Scheduler.runAsync( new ProvisionCommand( future, request ) );
@@ -79,6 +80,13 @@ public class DefaultDatabase implements Database {
 		}
 
 		/**
+		 * Complete successfully with a String payload
+		 */
+		protected void complete( String payload ) {
+			complete( payload, true );
+		}
+
+		/**
 		 * Signals that this command completed
 		 *
 		 * @param payload the result payload to send
@@ -89,7 +97,25 @@ public class DefaultDatabase implements Database {
 			JSONObject response = JSONObject.create();
 			response.put( Response.REQUEST_ID, _request.getString( Request.ID ) );
 			response.put( Response.SUCCESS, success );
-			response.put( Response.PAYLOAD, (JSONObject)payload );
+
+			if ( null == payload ) {
+				response.put( Response.PAYLOAD, (String)null );
+			} else if ( payload instanceof JSONObject ) {
+				response.put( Response.PAYLOAD, (JSONObject)payload );
+			} else if ( payload instanceof String ) {
+				response.put( Response.PAYLOAD, (String)payload );
+			} else if ( payload instanceof Boolean ) {
+				response.put( Response.PAYLOAD, (Boolean)payload );
+			} else if ( payload instanceof Integer ) {
+				response.put( Response.PAYLOAD, (Integer)payload );
+			} else if ( payload instanceof Float ) {
+				response.put( Response.PAYLOAD, (Float)payload );
+			} else if ( payload instanceof Double ) {
+				response.put( Response.PAYLOAD, (Double)payload );
+			} else {
+				throw new IllegalArgumentException( "Unsupported payload type "+payload.getClass());
+			}
+
 			super.complete( response, success );
 		}
 	}
@@ -146,7 +172,7 @@ public class DefaultDatabase implements Database {
 							synchronized ( _storeMap ) {
 								_storeMap.put( storeName, store );
 							}
-							complete( null );
+							complete( (String)null );
 						}
 					},
 					new Closure<JSONObject>() {
@@ -187,9 +213,7 @@ public class DefaultDatabase implements Database {
 			future.then(
 					new Closure<String>() {
 						public void apply( String id ) {
-							JSONObject response = JSONObject.create();
-							response.put( store.getIdField(), id );
-							complete( response );
+							complete( id );
 						}
 					},
 					new Closure<JSONObject>() {
