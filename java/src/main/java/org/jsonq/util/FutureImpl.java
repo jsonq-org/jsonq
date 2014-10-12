@@ -17,7 +17,7 @@ public class FutureImpl<T,E> extends FutureBase<T,E> {
 	 * Constructor 
 	 */
 	public FutureImpl() {
-		super( ""+UUID.uuid() );
+		super( UUID.uuid() );
 	}
 
 	/**

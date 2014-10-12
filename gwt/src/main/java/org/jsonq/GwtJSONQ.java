@@ -21,7 +21,6 @@ public final class GwtJSONQ implements Exportable {
 		return wrap( fut );
 	}
 
-
 	/**
 	 * Creates a FutureWrapper
 	 */
@@ -30,4 +29,12 @@ public final class GwtJSONQ implements Exportable {
 		wrapper.wrap( future );
 		return wrapper
 	}-*/;
+
+	/**
+	 * Generate an RFC4122-compliant UUID
+	 */
+	@Export
+	public static String uuid() {
+		return UUID.uuid();
+	}
 }
