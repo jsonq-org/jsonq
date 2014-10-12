@@ -20,6 +20,6 @@ public interface Store {
 	 *
 	 * @return a Future representing the eventual result of the save
 	 */
-	public Future<JSONObject,JSONObject> save( JSONObject obj );
+	public Future<String,JSONObject> save( JSONObject obj );
 
 }

@@ -9,15 +9,15 @@ import static org.jsonq.JSONQConstants.*;
 /**
  * Base class for DB commands
  */
-public abstract class Command implements Runnable {
+public abstract class Command<T> implements Runnable {
 
-	protected final FutureImpl<JSONObject,JSONObject> _future;
+	protected final FutureImpl<T,JSONObject> _future;
 	protected final JSONObject _request;
 
 	/**
 	 * Constructor 
 	 */
-	protected Command( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+	protected Command( FutureImpl<T,JSONObject> future, JSONObject request ) {
 		_future = future;
 		_request = request;
 	}
@@ -27,7 +27,7 @@ public abstract class Command implements Runnable {
 	 *
 	 * @param payload the result payload to send
 	 */
-	protected void complete( JSONObject payload ) {
+	protected void complete( T payload ) {
 		complete( payload, true );
 	}
 
@@ -63,16 +63,12 @@ public abstract class Command implements Runnable {
 	 * @param payload the result payload to send
 	 * @param success true if the command completed successfully
 	 */
-	private void complete( JSONObject payload, boolean success ) {
-		JSONObject response = JSONObject.create();
-		response.put( Response.REQUEST_ID, _request.getString( Request.ID ) );
-		response.put( Response.SUCCESS, success );
-		response.put( Response.PAYLOAD, payload );
-
+	@SuppressWarnings("unchecked")
+	protected void complete( Object payload, boolean success ) {
 		if ( success ) {
-			_future.complete( response );
+			_future.complete( (T)payload );
 		} else {
-			_future.fail( response );
+			_future.fail( (JSONObject)payload );
 		}
 	}
 }

@@ -67,9 +67,36 @@ public class DefaultDatabase implements Database {
 	//----------------------------------------
 
 	/**
+	 * Extension of Command to wrap responses in a JSON/q Response
+	 */
+	public abstract class DbCommand extends Command<JSONObject> {
+
+		/**
+		 * Constructor 
+		 */
+		protected DbCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Signals that this command completed
+		 *
+		 * @param payload the result payload to send
+		 * @param success true if the command completed successfully
+		 */
+		@Override
+		protected void complete( Object payload, boolean success ) {
+			JSONObject response = JSONObject.create();
+			response.put( Response.REQUEST_ID, _request.getString( Request.ID ) );
+			response.put( Response.SUCCESS, success );
+			response.put( Response.PAYLOAD, (JSONObject)payload );
+			super.complete( response, success );
+		}
+	}
+	/**
 	 * Runnable for provisioning a new store
 	 */
-	public class ProvisionCommand extends Command {
+	public class ProvisionCommand extends DbCommand {
 
 		/**
 		 * Constructor 
@@ -134,7 +161,7 @@ public class DefaultDatabase implements Database {
 	/**
 	 * Runnable for saving an object
 	 */
-	public class SaveCommand extends Command {
+	public class SaveCommand extends DbCommand {
 
 		/**
 		 * Constructor 
@@ -155,12 +182,14 @@ public class DefaultDatabase implements Database {
 				}
 			}
 
-			Store store = _storeMap.get( storeName );
-			Future<JSONObject,JSONObject> future = store.save( _request );
+			final Store store = _storeMap.get( storeName );
+			Future<String,JSONObject> future = store.save( _request );
 			future.then(
-					new Closure<JSONObject>() {
-						public void apply( JSONObject response ) {
-							complete( response.getObject( Response.PAYLOAD ) );
+					new Closure<String>() {
+						public void apply( String id ) {
+							JSONObject response = JSONObject.create();
+							response.put( store.getIdField(), id );
+							complete( response );
 						}
 					},
 					new Closure<JSONObject>() {

@@ -59,8 +59,9 @@ public class SimpleStore implements Store {
 	 *
 	 * @return a Future representing the eventual result of the save
 	 */
-	public Future<JSONObject,JSONObject> save( JSONObject request ) {
-		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<>();
+	@Override
+	public Future<String,JSONObject> save( JSONObject request ) {
+		FutureImpl<String,JSONObject> future = new FutureImpl<>();
 		Scheduler.runAsync( new SaveCommand( future, request ) );
 		return future;
 	}
@@ -68,12 +69,12 @@ public class SimpleStore implements Store {
 	/**
 	 * Runnable for saving an object
 	 */
-	public class SaveCommand extends Command {
+	public class SaveCommand extends Command<String> {
 
 		/**
 		 * Constructor 
 		 */
-		protected SaveCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+		protected SaveCommand( FutureImpl<String,JSONObject> future, JSONObject request ) {
 			super( future, request );
 		}
 
@@ -83,18 +84,15 @@ public class SimpleStore implements Store {
 		public void run() {
 			JSONObject payload = _request.getObject( Request.PAYLOAD );
 
-			String key = payload.getString( _key );
-			if ( null == key ) {
-				key = UUID.uuid();
-				payload.put( _key, key );
+			String id = payload.getString( _idField );
+			if ( null == id ) {
+				id = UUID.uuid();
+				payload.put( _idField, id );
 			}
 
 			// TODO: validate against schema
-			_map.put( key, payload );
-
-			JSONObject response = JSONObject.create();
-			response.put( _key, key );
-			complete( response );
+			_map.put( id, payload );
+			complete( id );
 		}
 	}
 
