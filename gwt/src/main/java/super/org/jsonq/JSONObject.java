@@ -25,10 +25,14 @@ public final class JSONObject extends JavaScriptObject {
 	 *
 	 * @return  an (unmodifiable) set of all the keys in the map
 	 */
-	public Set<String> getKeys() {
-		// TODO: implement
-		return Collections.emptySet();
-	}
+	public native Set<String> getKeys() /*-{
+		var keys = Object.keys(this);
+		var set = @java.util.HashSet::new(I)(2*keys.length);
+		for(var i=0; i<keys.length; i++) {
+			set.@java.util.HashSet::add(Ljava/lang/Object;)(keys[i]);
+		}
+		return set;
+	}-*/;
 
 	/**
 	 * Returns the number of objects in this map
