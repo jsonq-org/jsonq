@@ -87,7 +87,9 @@ public class DefaultDatabase implements Database {
 	 */
 	@Override
 	public Future<JSONObject,JSONObject> delete( JSONObject request ) {
-		return null;
+		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<JSONObject,JSONObject>();
+		Scheduler.runAsync( new DeleteCommand( future, request ) );
+		return future;
 	}
 
 	/**
@@ -99,7 +101,9 @@ public class DefaultDatabase implements Database {
 	 */
 	@Override
 	public Future<JSONObject,JSONObject> list( JSONObject request ) {
-		return null;
+		FutureImpl<JSONObject,JSONObject> future = new FutureImpl<JSONObject,JSONObject>();
+		Scheduler.runAsync( new ListCommand( future, request ) );
+		return future;
 	}
 
 	//----------------------------------------
@@ -122,6 +126,13 @@ public class DefaultDatabase implements Database {
 		 * Complete successfully with a String payload
 		 */
 		protected void complete( String payload ) {
+			complete( payload, true );
+		}
+
+		/**
+		 * Complete successfully with a List payload
+		 */
+		protected void complete( List payload ) {
 			complete( payload, true );
 		}
 
@@ -151,6 +162,10 @@ public class DefaultDatabase implements Database {
 				response.put( Response.PAYLOAD, (Float)payload );
 			} else if ( payload instanceof Double ) {
 				response.put( Response.PAYLOAD, (Double)payload );
+			} else if ( payload instanceof List ) {
+				response.put( Response.PAYLOAD, (List)payload );
+			} else if ( payload instanceof Object[] ) {
+				response.put( Response.PAYLOAD, Arrays.asList( (Object[])payload ) );
 			} else {
 				throw new IllegalArgumentException( "Unsupported payload type "+payload.getClass());
 			}
@@ -305,6 +320,62 @@ public class DefaultDatabase implements Database {
 			future.then(
 					new Closure<JSONObject>() {
 						public void apply( JSONObject object ) { complete( object ); }
+					},
+					new Closure<JSONObject>() {
+						public void apply( JSONObject error ) { fail( error ); }
+					},
+					null );
+		}
+	}
+
+	/**
+	 * Runnable for deleting an object
+	 */
+	public class DeleteCommand extends StoreCommand {
+
+		/**
+		 * Constructor 
+		 */
+		protected DeleteCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Called to execute this command
+		 */
+		protected void run( final Store store ) {
+			Future<Void,JSONObject> future = store.delete( _request );
+			future.then(
+					new Closure<Void>() {
+						public void apply( Void obj ) { complete( (String)null ); }
+					},
+					new Closure<JSONObject>() {
+						public void apply( JSONObject error ) { fail( error ); }
+					},
+					null );
+		}
+	}
+
+	/**
+	 * Runnable for listing all objects in a store
+	 */
+	public class ListCommand extends StoreCommand {
+
+		/**
+		 * Constructor 
+		 */
+		protected ListCommand( FutureImpl<JSONObject,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Called to execute this command
+		 */
+		protected void run( final Store store ) {
+			Future<List<JSONObject>,JSONObject> future = store.list( _request );
+			future.then(
+					new Closure<List<JSONObject>>() {
+						public void apply( List<JSONObject> objects ) { complete( objects ); }
 					},
 					new Closure<JSONObject>() {
 						public void apply( JSONObject error ) { fail( error ); }
