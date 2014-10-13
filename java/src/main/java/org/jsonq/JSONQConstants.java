@@ -36,6 +36,7 @@ public final class JSONQConstants {
 		public static final String SAVE = "save";
 		public static final String FETCH = "fetch";
 		public static final String DELETE = "delete";
+		public static final String LIST = "list";
 		public static final String QUERY = "query";
 	}
 

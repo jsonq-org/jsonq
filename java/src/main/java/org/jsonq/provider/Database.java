@@ -36,4 +36,22 @@ public interface Database {
 	 */
 	public Future<JSONObject,JSONObject> fetch( JSONObject request );
 
+	/**
+	 * Delete an item by its ID
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the delete operation
+	 */
+	public Future<JSONObject,JSONObject> delete( JSONObject request );
+
+	/**
+	 * List all the items in a given store
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the list operation
+	 */
+	public Future<JSONObject,JSONObject> list( JSONObject request );
+
 }

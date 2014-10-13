@@ -3,6 +3,7 @@ package org.jsonq.provider.impl;
 import org.jsonq.*;
 import org.jsonq.provider.*;
 import org.jsonq.util.*;
+import java.util.*;
 
 import static org.jsonq.JSONQConstants.*;
 
@@ -81,6 +82,38 @@ public class SimpleStore implements Store {
 	}
 
 	/**
+	 * Delete an item by its ID
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the delete operation
+	 */
+	@Override
+	public Future<Void,JSONObject> delete( JSONObject request ) {
+		FutureImpl<Void,JSONObject> future = new FutureImpl<>();
+		Scheduler.runAsync( new DeleteCommand( future, request ) );
+		return future;
+	}
+
+	/**
+	 * List all the items in a given store
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the list operation
+	 */
+	@Override
+	public Future<List<JSONObject>,JSONObject> list( JSONObject request ) {
+		FutureImpl<List<JSONObject>,JSONObject> future = new FutureImpl<>();
+		Scheduler.runAsync( new ListCommand( future, request ) );
+		return future;
+	}
+
+	//----------------------------------------
+	// Commands
+	//----------------------------------------
+
+	/**
 	 * Runnable for saving an object
 	 */
 	public class SaveCommand extends Command<String> {
@@ -100,7 +133,7 @@ public class SimpleStore implements Store {
 
 			String id = payload.getString( _idField );
 			if ( null == id ) {
-				id = UUID.uuid();
+				id = org.jsonq.util.UUID.uuid();
 				payload.put( _idField, id );
 			}
 
@@ -131,4 +164,49 @@ public class SimpleStore implements Store {
 		}
 	}
 
+	/**
+	 * Runnable for deleting an object
+	 */
+	public class DeleteCommand extends Command<Void> {
+
+		/**
+		 * Constructor 
+		 */
+		protected DeleteCommand( FutureImpl<Void,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Called to execute this command
+		 */
+		public void run() {
+			String id = _request.getString( Request.PAYLOAD );
+			_map.remove( id );
+			complete( null );
+		}
+	}
+
+	/**
+	 * Runnable for listing all objects in the store
+	 */
+	public class ListCommand extends Command<List<JSONObject>> {
+
+		/**
+		 * Constructor 
+		 */
+		protected ListCommand( FutureImpl<List<JSONObject>,JSONObject> future, JSONObject request ) {
+			super( future, request );
+		}
+
+		/**
+		 * Called to execute this command
+		 */
+		public void run() {
+			List<JSONObject> list = new ArrayList<>( _map.size() );
+			for ( String key : _map.getKeys()) {
+				list.add( _map.getObject( key ) );
+			}
+			complete( list );
+		}
+	}
 }

@@ -78,6 +78,30 @@ public class DefaultDatabase implements Database {
 		return future;
 	}
 
+	/**
+	 * Delete an item by its ID
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the delete operation
+	 */
+	@Override
+	public Future<JSONObject,JSONObject> delete( JSONObject request ) {
+		return null;
+	}
+
+	/**
+	 * List all the items in a given store
+	 *
+	 * @param request the valid JSON/q request
+	 *
+	 * @return a Future representing the result of the list operation
+	 */
+	@Override
+	public Future<JSONObject,JSONObject> list( JSONObject request ) {
+		return null;
+	}
+
 	//----------------------------------------
 	// Commands
 	//----------------------------------------

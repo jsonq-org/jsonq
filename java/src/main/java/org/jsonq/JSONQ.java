@@ -79,6 +79,10 @@ public final class JSONQ {
 			return _db.save( obj );
 		} else if ( Op.FETCH.equals( op ) ) {
 			return _db.fetch( obj );
+		} else if ( Op.DELETE.equals( op ) ) {
+			return _db.delete( obj );
+		} else if ( Op.LIST.equals( op ) ) {
+			return _db.list( obj );
 		} else {
 			throw new IllegalStateException( "Unhandled operation: "+op );
 		}
