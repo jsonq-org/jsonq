@@ -1,6 +1,6 @@
-package org.jsonq;
+package org.jsonq.gwt;
 
-import org.jsonq.gwt.*;
+import org.jsonq.*;
 import org.jsonq.util.*;
 import org.timepedia.exporter.client.*;
 import com.google.gwt.user.client.*;
