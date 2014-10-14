@@ -17,7 +17,6 @@ public class FutureWrapper implements Exportable {
 	 * Wrap the given future
 	 */
 	public void wrap( Future<JSONObject,JSONObject> future ) {
-		System.out.println("Wrapped");
 		_future = future;
 	}
 	
